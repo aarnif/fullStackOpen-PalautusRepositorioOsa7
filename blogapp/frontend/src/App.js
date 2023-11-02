@@ -8,13 +8,16 @@ import LoginForm from "./components/Login";
 import NewBlog from "./components/NewBlog";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import { useSelector, useDispatch } from "react-redux";
+import { setNotification } from "./reducers/notificationReducer";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState("");
-  const [info, setInfo] = useState({ message: null });
 
+  const info = useSelector((state) => state.notification);
   const blogFormRef = useRef();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const user = storageService.loadUser();
@@ -26,14 +29,7 @@ const App = () => {
   }, []);
 
   const notifyWith = (message, type = "info") => {
-    setInfo({
-      message,
-      type,
-    });
-
-    setTimeout(() => {
-      setInfo({ message: null });
-    }, 3000);
+    dispatch(setNotification({ message, type }));
   };
 
   const login = async (username, password) => {
