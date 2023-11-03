@@ -15,10 +15,24 @@ const notificationSlice = createSlice({
       console.log(action.payload);
       return [...state, action.payload];
     },
+    updateBlogs(state, action) {
+      console.log(action.payload);
+      return state.map((blog) => {
+        return blog.id === action.payload.id ? action.payload : blog;
+      });
+    },
+    deleteBlog(state, action) {
+      const id = action.payload;
+      console.log(id);
+      return state.filter((blog) => {
+        return blog.id !== id;
+      });
+    },
   },
 });
 
-const { setBlogs, appendBlog } = notificationSlice.actions;
+const { setBlogs, appendBlog, updateBlogs, deleteBlog } =
+  notificationSlice.actions;
 
 export const inialitizeBlogs = () => {
   return async (dispatch) => {
@@ -31,6 +45,20 @@ export const addBlog = (newBlogContent) => {
   return async (dispatch) => {
     const newBlog = await BlogService.create(newBlogContent);
     dispatch(appendBlog(newBlog));
+  };
+};
+
+export const updateBlog = (updatedBlogContent) => {
+  return async (dispatch) => {
+    const updatedBlog = await BlogService.update(updatedBlogContent);
+    dispatch(updateBlogs(updatedBlog));
+  };
+};
+
+export const removeBlog = (id) => {
+  return async (dispatch) => {
+    const deletedBLog = await BlogService.remove(id);
+    dispatch(deleteBlog(id));
   };
 };
 

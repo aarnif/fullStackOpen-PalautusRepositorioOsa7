@@ -10,7 +10,12 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import { useSelector, useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
-import { inialitizeBlogs, addBlog } from "./reducers/blogsReducer";
+import {
+  inialitizeBlogs,
+  addBlog,
+  updateBlog,
+  removeBlog,
+} from "./reducers/blogsReducer";
 
 const App = () => {
   const blogs = [...useSelector((state) => state.blogs)];
@@ -58,9 +63,8 @@ const App = () => {
 
   const like = async (blog) => {
     const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id };
-    const updatedBlog = await blogService.update(blogToUpdate);
+    const updatedBlog = dispatch(updateBlog(blogToUpdate));
     notifyWith(`A like for the blog '${blog.title}' by '${blog.author}'`);
-    // setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)));
   };
 
   const remove = async (blog) => {
@@ -68,9 +72,9 @@ const App = () => {
       `Sure you want to remove '${blog.title}' by ${blog.author}`
     );
     if (ok) {
-      await blogService.remove(blog.id);
+      const deletedBlog = dispatch(removeBlog(blog.id));
       notifyWith(`The blog' ${blog.title}' by '${blog.author} removed`);
-      // setBlogs(blogs.filter((b) => b.id !== blog.id));
+      dispatch(inialitizeBlogs());
     }
   };
 
