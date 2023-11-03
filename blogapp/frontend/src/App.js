@@ -10,9 +10,10 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import { useSelector, useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
+import { inialitizeBlogs, addBlog } from "./reducers/blogsReducer";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  const blogs = [...useSelector((state) => state.blogs)];
   const [user, setUser] = useState("");
 
   const info = useSelector((state) => state.notification);
@@ -25,8 +26,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    dispatch(inialitizeBlogs());
+  }, [dispatch]);
 
   const notifyWith = (message, type = "info") => {
     dispatch(setNotification({ message, type }));
@@ -50,9 +51,8 @@ const App = () => {
   };
 
   const createBlog = async (newBlog) => {
-    const createdBlog = await blogService.create(newBlog);
+    dispatch(addBlog(newBlog));
     notifyWith(`A new blog '${newBlog.title}' by '${newBlog.author}' added`);
-    setBlogs(blogs.concat(createdBlog));
     blogFormRef.current.toggleVisibility();
   };
 
@@ -60,7 +60,7 @@ const App = () => {
     const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id };
     const updatedBlog = await blogService.update(blogToUpdate);
     notifyWith(`A like for the blog '${blog.title}' by '${blog.author}'`);
-    setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)));
+    // setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)));
   };
 
   const remove = async (blog) => {
@@ -70,7 +70,7 @@ const App = () => {
     if (ok) {
       await blogService.remove(blog.id);
       notifyWith(`The blog' ${blog.title}' by '${blog.author} removed`);
-      setBlogs(blogs.filter((b) => b.id !== blog.id));
+      // setBlogs(blogs.filter((b) => b.id !== blog.id));
     }
   };
 
