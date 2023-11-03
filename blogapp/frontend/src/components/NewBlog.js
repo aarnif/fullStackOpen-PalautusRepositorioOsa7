@@ -1,13 +1,29 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addBlog } from "../reducers/blogsReducer";
+import { setNotification } from "../reducers/notificationReducer";
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ handleVisibility }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
-  const handleSubmit = async (event) => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    await createBlog({ title, author, url });
+    const newBlogContent = { title, author, url };
+    const addNewBlog = dispatch(addBlog(newBlogContent));
+    dispatch(
+      setNotification({
+        message: `A new blog '${newBlogContent.title}' by '${newBlogContent.author}' added`,
+        type: "info",
+      })
+    );
+    handleVisibility();
+    setTitle("");
+    setAuthor("");
+    setUrl("");
   };
 
   return (
