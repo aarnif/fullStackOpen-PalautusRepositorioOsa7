@@ -51,7 +51,7 @@ const App = () => {
   };
 
   const createBlog = async (newBlog) => {
-    dispatch(addBlog(newBlog));
+    const addNewBlog = dispatch(addBlog(newBlog));
     notifyWith(`A new blog '${newBlog.title}' by '${newBlog.author}' added`);
     blogFormRef.current.toggleVisibility();
   };
