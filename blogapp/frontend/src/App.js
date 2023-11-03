@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
-import blogService from "./services/blogs";
 import loginService from "./services/login";
 import storageService from "./services/storage";
 
@@ -16,19 +15,19 @@ import {
   updateBlog,
   removeBlog,
 } from "./reducers/blogsReducer";
+import { loadUser, loginUser, logoutUser } from "./reducers/userReducer";
 
 const App = () => {
   const blogs = [...useSelector((state) => state.blogs)];
-  const [user, setUser] = useState("");
+  const user = useSelector((state) => state.user);
 
   const info = useSelector((state) => state.notification);
   const blogFormRef = useRef();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const user = storageService.loadUser();
-    setUser(user);
-  }, []);
+    dispatch(loadUser());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(inialitizeBlogs());
@@ -40,9 +39,7 @@ const App = () => {
 
   const login = async (username, password) => {
     try {
-      const user = await loginService.login({ username, password });
-      setUser(user);
-      storageService.saveUser(user);
+      dispatch(loginUser(username, password));
       notifyWith("welcome!");
     } catch (e) {
       notifyWith("wrong username or password", "error");
@@ -50,8 +47,7 @@ const App = () => {
   };
 
   const logout = async () => {
-    setUser(null);
-    storageService.removeUser();
+    dispatch(logoutUser());
     notifyWith("logged out");
   };
 
