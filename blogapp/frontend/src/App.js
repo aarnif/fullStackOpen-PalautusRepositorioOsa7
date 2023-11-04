@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import LoginForm from "./components/Login";
 import Notification from "./components/Notification";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
 import { loadUser, logoutUser } from "./reducers/userReducer";
@@ -10,6 +10,7 @@ import { inialitizeBlogs } from "./reducers/blogsReducer";
 import { inialitizeUsers } from "./reducers/usersReducer";
 import Blogs from "./components/Blogs";
 import Users from "./components/Users";
+import User from "./components/User";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -18,6 +19,11 @@ const App = () => {
   const info = useSelector((state) => state.notification);
 
   const dispatch = useDispatch();
+
+  const match = useMatch("/users/:id");
+  const findUser = match
+    ? users.find((user) => user.id === match.params.id)
+    : null;
 
   useEffect(() => {
     dispatch(loadUser());
@@ -57,6 +63,7 @@ const App = () => {
       <Routes>
         <Route path="/blogs" element={<Blogs blogs={blogs} />}></Route>
         <Route path="/users" element={<Users users={users} />}></Route>
+        <Route path="/users/:id" element={<User user={findUser} />}></Route>
       </Routes>
     </div>
   );
