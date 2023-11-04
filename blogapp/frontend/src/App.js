@@ -20,9 +20,14 @@ const App = () => {
 
   const dispatch = useDispatch();
 
-  const match = useMatch("/users/:id");
-  const findUser = match
-    ? users.find((user) => user.id === match.params.id)
+  const matchUser = useMatch("/users/:id");
+  const findUser = matchUser
+    ? users.find((user) => user.id === matchUser.params.id)
+    : null;
+
+  const matchBlog = useMatch("/blogs/:id");
+  const findBlog = matchBlog
+    ? blogs.find((blog) => blog.id === matchBlog.params.id)
     : null;
 
   useEffect(() => {
@@ -62,6 +67,7 @@ const App = () => {
       </button>
       <Routes>
         <Route path="/blogs" element={<Blogs blogs={blogs} />}></Route>
+        <Route path="/blogs/:id" element={<Blog blog={findBlog} />}></Route>
         <Route path="/users" element={<Users users={users} />}></Route>
         <Route path="/users/:id" element={<User user={findUser} />}></Route>
       </Routes>

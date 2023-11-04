@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import Togglable from "./Togglable";
 import NewBlog from "./NewBlog";
 import Blog from "./Blog";
@@ -6,6 +7,13 @@ import Blog from "./Blog";
 const Blogs = ({ blogs }) => {
   const blogFormRef = useRef();
   const byLikes = (b1, b2) => b2.likes - b1.likes;
+
+  const style = {
+    marginBottom: 2,
+    padding: 5,
+    borderStyle: "solid",
+  };
+
   return (
     <>
       <Togglable buttonLabel="new note" ref={blogFormRef}>
@@ -15,7 +23,9 @@ const Blogs = ({ blogs }) => {
       </Togglable>
       <div>
         {blogs.sort(byLikes).map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+          <div style={style}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </div>
         ))}
       </div>
     </>

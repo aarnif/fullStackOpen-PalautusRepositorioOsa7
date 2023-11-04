@@ -7,7 +7,6 @@ import { setNotification } from "../reducers/notificationReducer";
 
 const Blog = ({ blog }) => {
   const user = useSelector((state) => state.user);
-  const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -38,34 +37,24 @@ const Blog = ({ blog }) => {
     }
   };
 
-  const style = {
-    marginBottom: 2,
-    padding: 5,
-    borderStyle: "solid",
-  };
-
   const canRemove = user && blog.user.username === user.username;
 
   return (
-    <div style={style} className="blog">
-      {blog.title} {blog.author}
-      <button onClick={() => setVisible(!visible)}>
-        {visible ? "hide" : "show"}
-      </button>
-      {visible && (
+    <>
+      <h2>
+        {blog.title} {blog.author}
+      </h2>
+      <div>
         <div>
-          <div>
-            {" "}
-            <a href={blog.url}> {blog.url}</a>{" "}
-          </div>
-          <div>
-            likes {blog.likes} <button onClick={like}>like</button>
-          </div>
-          <div>{blog.user && blog.user.name}</div>
-          {canRemove && <button onClick={remove}>delete</button>}
+          <a href={blog.url}> {blog.url}</a>{" "}
         </div>
-      )}
-    </div>
+        <div>
+          likes {blog.likes} <button onClick={like}>like</button>
+        </div>
+        <div>Added by {blog.user?.name}</div>
+        {canRemove && <button onClick={remove}>delete</button>}
+      </div>
+    </>
   );
 };
 
