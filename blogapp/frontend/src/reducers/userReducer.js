@@ -25,9 +25,13 @@ export const loadUser = () => {
 
 export const loginUser = (username, password) => {
   return async (dispatch) => {
-    const user = await loginService.login({ username, password });
-    storageService.saveUser(user);
-    dispatch(setUser(user));
+    try {
+      const user = await loginService.login({ username, password });
+      storageService.saveUser(user);
+      dispatch(setUser(user));
+    } catch (e) {
+      throw e;
+    }
   };
 };
 

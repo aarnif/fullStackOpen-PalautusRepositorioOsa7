@@ -11,12 +11,12 @@ const LoginForm = ({ login }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      dispatch(loginUser(username, password));
+      await dispatch(loginUser(username, password));
       dispatch(setNotification({ message: "welcome!", type: "info" }));
-    } catch (e) {
+    } catch (error) {
       dispatch(
         setNotification({
-          message: "wrong username or password",
+          message: error.response.data.error,
           type: "error",
         })
       );
