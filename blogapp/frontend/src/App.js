@@ -1,20 +1,22 @@
 import { useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import LoginForm from "./components/Login";
-import NewBlog from "./components/NewBlog";
 import Notification from "./components/Notification";
-import Togglable from "./components/Togglable";
+import { Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
-import { inialitizeBlogs } from "./reducers/blogsReducer";
 import { loadUser, logoutUser } from "./reducers/userReducer";
+import { inialitizeBlogs } from "./reducers/blogsReducer";
+import { inialitizeUsers } from "./reducers/usersReducer";
+import Blogs from "./components/Blogs";
+import Users from "./components/Users";
 
 const App = () => {
-  const blogs = [...useSelector((state) => state.blogs)];
   const user = useSelector((state) => state.user);
+  const blogs = [...useSelector((state) => state.blogs)];
+  const users = [...useSelector((state) => state.users)];
   const info = useSelector((state) => state.notification);
 
-  const blogFormRef = useRef();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,6 +25,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(inialitizeBlogs());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(inialitizeUsers());
   }, [dispatch]);
 
   const logout = async () => {
@@ -40,8 +46,6 @@ const App = () => {
     );
   }
 
-  const byLikes = (b1, b2) => b2.likes - b1.likes;
-
   return (
     <div>
       <h2>blogs</h2>
@@ -50,16 +54,10 @@ const App = () => {
         {user.name} logged in
         <button onClick={logout}>logout</button>
       </div>
-      <Togglable buttonLabel="new note" ref={blogFormRef}>
-        <NewBlog
-          handleVisibility={() => blogFormRef.current.toggleVisibility()}
-        />
-      </Togglable>
-      <div>
-        {blogs.sort(byLikes).map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
-      </div>
+      <Routes>
+        <Route path="/blogs" element={<Blogs blogs={blogs} />}></Route>
+        <Route path="/users" element={<Users users={users} />}></Route>
+      </Routes>
     </div>
   );
 };
