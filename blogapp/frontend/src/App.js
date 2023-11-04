@@ -56,10 +56,10 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification info={info} />
-      <div>
-        {user.name} logged in
-        <button onClick={logout}>logout</button>
-      </div>
+      <div>{user.name} logged in</div>
+      <button style={{ marginTop: 10 }} onClick={logout}>
+        logout
+      </button>
       <Routes>
         <Route path="/blogs" element={<Blogs blogs={blogs} />}></Route>
         <Route path="/users" element={<Users users={users} />}></Route>
