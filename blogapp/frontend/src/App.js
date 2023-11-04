@@ -57,11 +57,7 @@ const App = () => {
       </Togglable>
       <div>
         {blogs.sort(byLikes).map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            canRemove={user && blog.user.username === user.username}
-          />
+          <Blog key={blog.id} blog={blog} />
         ))}
       </div>
     </div>

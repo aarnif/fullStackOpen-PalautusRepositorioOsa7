@@ -1,11 +1,12 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { updateBlog, removeBlog } from "../reducers/blogsReducer";
 import { inialitizeBlogs } from "../reducers/blogsReducer";
 import { setNotification } from "../reducers/notificationReducer";
 
-const Blog = ({ blog, canRemove }) => {
+const Blog = ({ blog }) => {
+  const user = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -43,6 +44,8 @@ const Blog = ({ blog, canRemove }) => {
     borderStyle: "solid",
   };
 
+  const canRemove = user && blog.user.username === user.username;
+
   return (
     <div style={style} className="blog">
       {blog.title} {blog.author}
@@ -67,9 +70,6 @@ const Blog = ({ blog, canRemove }) => {
 };
 
 Blog.propTypes = {
-  like: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired,
-  canRemove: PropTypes.bool,
   blog: PropTypes.shape({
     title: PropTypes.string,
     author: PropTypes.string,
