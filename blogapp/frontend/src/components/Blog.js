@@ -54,6 +54,15 @@ const Blog = ({ blog }) => {
         <div>Added by {blog.user?.name}</div>
         {canRemove && <button onClick={remove}>delete</button>}
       </div>
+      <h3>comments</h3>
+
+      <ul>
+        {blog.comments.length > 0 ? (
+          blog.comments.map((comment) => <li>{comment.content}</li>)
+        ) : (
+          <li>no comments yet</li>
+        )}
+      </ul>
     </>
   );
 };
