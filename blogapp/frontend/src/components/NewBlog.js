@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addBlog } from "../reducers/blogsReducer";
 import { setNotification } from "../reducers/notificationReducer";
+import { Form, LoginHeader, Ul, Li, Label, Input, Button } from "../styles";
+import Togglable from "./Togglable";
 
-const BlogForm = ({ handleVisibility }) => {
+const BlogForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+  const blogFormRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -26,41 +29,59 @@ const BlogForm = ({ handleVisibility }) => {
     setUrl("");
   };
 
-  return (
-    <div>
-      <h4>Create a new blog</h4>
+  const handleVisibility = () => blogFormRef.current.toggleVisibility();
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          title
-          <input
-            id="title"
-            placeholder="title"
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-        <div>
-          author
-          <input
-            id="author"
-            placeholder="author"
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-          url
-          <input
-            id="url"
-            placeholder="url"
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </div>
-        <button type="submit">create</button>
-      </form>
-    </div>
+  return (
+    <Togglable buttonLabel="new blog" ref={blogFormRef}>
+      <Form onSubmit={handleSubmit}>
+        <LoginHeader>Create a new blog</LoginHeader>
+        <Ul>
+          <Li>
+            <Label>title</Label>
+          </Li>
+          <Li>
+            <Input
+              id="title"
+              placeholder="title"
+              value={title}
+              onChange={({ target }) => setTitle(target.value)}
+            />
+          </Li>
+        </Ul>
+        <Ul>
+          <Li>
+            <Label>author</Label>
+          </Li>
+          <Li>
+            <Input
+              id="author"
+              placeholder="author"
+              value={author}
+              onChange={({ target }) => setAuthor(target.value)}
+            />
+          </Li>
+        </Ul>
+        <Ul>
+          <Li>
+            <Label>url</Label>
+          </Li>
+          <Li>
+            <Input
+              id="url"
+              placeholder="url"
+              value={url}
+              onChange={({ target }) => setUrl(target.value)}
+            />
+          </Li>
+        </Ul>
+        <Li>
+          <Button type="button" onClick={handleVisibility}>
+            cancel
+          </Button>
+          <Button type="submit">create</Button>
+        </Li>
+      </Form>
+    </Togglable>
   );
 };
 

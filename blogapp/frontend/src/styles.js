@@ -3,6 +3,7 @@ import styled from "styled-components";
 const borderRadius = "10px";
 
 export const Button = styled.button`
+  margin: 10px;
   background-color: rgb(32, 107, 163);
   color: whitesmoke;
   font-size: 1.2em;
@@ -79,11 +80,31 @@ export const HeaderDiv = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 70%;
+  width: 100%;
   height: 80px;
   border-bottom: 1px solid black;
 `;
 
 export const MenuHeader = styled.h1`
   font-weight: 900;
+`;
+
+export const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Card = styled.div`
+  width: 90%;
+  height: 70px;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: ${borderRadius};
+`;
+
+export const CardHeader = styled.h1`
+  font-weight: 700;
 `;
