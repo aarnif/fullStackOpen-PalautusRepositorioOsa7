@@ -48,7 +48,7 @@ export const addBlog = (newBlogContent) => {
   };
 };
 
-export const updateBlog = (updatedBlogContent) => {
+export const updateBlogContent = (updatedBlogContent) => {
   return async (dispatch) => {
     const updatedBlog = await BlogService.update(updatedBlogContent);
     dispatch(updateBlogs(updatedBlog));
@@ -59,6 +59,15 @@ export const removeBlog = (id) => {
   return async (dispatch) => {
     const deletedBlog = await BlogService.remove(id);
     dispatch(deleteBlog(id));
+  };
+};
+
+export const addComment = (updatedBlogContent, comment) => {
+  return async (dispatch) => {
+    const addToComments = await BlogService.addComment(updatedBlogContent.id, {
+      content: comment,
+    });
+    dispatch(updateBlogs(updatedBlogContent));
   };
 };
 

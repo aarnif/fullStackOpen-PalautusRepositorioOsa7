@@ -50,11 +50,11 @@ router.get("/:id", async (request, response) => {
 });
 
 router.put("/:id", async (request, response) => {
-  const { title, url, author, likes } = request.body;
+  const { title, url, author, likes, comments } = request.body;
 
   let updatedBlog = await Blog.findByIdAndUpdate(
     request.params.id,
-    { title, url, author, likes },
+    { title, url, author, likes, comments },
     { new: true }
   );
 

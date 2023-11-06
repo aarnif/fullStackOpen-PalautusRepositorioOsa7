@@ -3,7 +3,7 @@ const Notification = ({ info }) => {
     return;
   }
 
-  console.log(info);
+  // console.log(info);
 
   const style = {
     color: info.type === "error" ? "red" : "green",

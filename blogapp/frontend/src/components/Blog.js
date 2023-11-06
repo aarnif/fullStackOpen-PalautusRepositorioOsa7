@@ -1,7 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { updateBlog, removeBlog } from "../reducers/blogsReducer";
+import {
+  updateBlogContent,
+  removeBlog,
+  addComment,
+} from "../reducers/blogsReducer";
 import { inialitizeBlogs } from "../reducers/blogsReducer";
 import { setNotification } from "../reducers/notificationReducer";
 
@@ -12,7 +16,7 @@ const Blog = ({ blog }) => {
 
   const like = async () => {
     const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id };
-    const updatedBlog = dispatch(updateBlog(blogToUpdate));
+    const updatedBlog = dispatch(updateBlogContent(blogToUpdate));
     dispatch(
       setNotification({
         message: `A like for the blog '${blog.title}' by '${blog.author}'`,
@@ -37,6 +41,24 @@ const Blog = ({ blog }) => {
     }
   };
 
+  const comment = async (event) => {
+    event.preventDefault();
+    const comment = event.target.comment.value;
+    const blogToUpdate = {
+      ...blog,
+      comments: [...blog.comments, { content: comment }],
+      user: blog.user.id,
+    };
+    const updatedBlog = dispatch(addComment(blogToUpdate, comment));
+    dispatch(
+      setNotification({
+        message: `add comment '${comment}'`,
+        type: "info",
+      })
+    );
+    event.target.comment.value = "";
+  };
+
   const canRemove = user && blog.user.username === user.username;
 
   return (
@@ -55,7 +77,10 @@ const Blog = ({ blog }) => {
         {canRemove && <button onClick={remove}>delete</button>}
       </div>
       <h3>comments</h3>
-
+      <form onSubmit={comment}>
+        <input type="text" id="comment" name="comment"></input>
+        <button type="submit">add comment</button>
+      </form>
       <ul>
         {blog.comments.length > 0 ? (
           blog.comments.map((comment) => <li>{comment.content}</li>)
