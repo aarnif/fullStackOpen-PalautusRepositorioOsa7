@@ -59,8 +59,6 @@ const App = () => {
   if (!user) {
     return (
       <div>
-        <h2>log in to application</h2>
-        <Notification info={info} />
         <LoginForm />
       </div>
     );
