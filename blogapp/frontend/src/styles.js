@@ -5,7 +5,7 @@ const borderRadius = "10px";
 export const Button = styled.button`
   background-color: rgb(32, 107, 163);
   color: whitesmoke;
-  font-size: 1.4em;
+  font-size: 1.2em;
   width: 100px;
   height: 40px;
   border: none;
@@ -47,7 +47,7 @@ export const Form = styled.form`
 
 export const Loginform = styled(Form)`
   position: relative;
-  bottom: 200px;
+  top: 200px;
   height: 400px;
 `;
 
@@ -60,4 +60,30 @@ export const Ul = styled.ul`
 export const Li = styled.li`
   list-style: none;
   margin-bottom: 10px;
+`;
+
+export const Navmenu = styled.ul`
+  all: unset;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`;
+
+export const NavmenuItem = styled.li`
+  list-style: none;
+  margin-left: 20px;
+  font-size: 1.2em;
+`;
+
+export const HeaderDiv = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  height: 80px;
+  border-bottom: 1px solid black;
+`;
+
+export const MenuHeader = styled.h1`
+  font-weight: 900;
 `;
