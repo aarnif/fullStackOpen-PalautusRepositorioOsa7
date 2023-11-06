@@ -22,7 +22,7 @@ export const Button = styled.button`
 `;
 
 export const LoginHeader = styled.h2`
-  width: 250px;
+  width: 300px;
   text-align: center;
 `;
 
@@ -41,7 +41,7 @@ export const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 400px;
+  width: 450px;
   border: 1px solid black;
   border-radius: ${borderRadius};
 `;
@@ -107,4 +107,16 @@ export const Card = styled.div`
 
 export const CardHeader = styled.h1`
   font-weight: 700;
+`;
+
+export const NotificationBox = styled.div`
+  margin: 10px;
+  font-size: 1.1em;
+  border: 1px solid;
+  border-radius: ${borderRadius};
+  padding: 10px;
+  margin-bottom: 10px;
+  color: ${(props) => (props.type === "error" ? "darkred" : "darkgreen")};
+  background-color: ${(props) =>
+    props.type === "error" ? "rgb(224,102,102)" : "rgb(163,193,151)"};
 `;
