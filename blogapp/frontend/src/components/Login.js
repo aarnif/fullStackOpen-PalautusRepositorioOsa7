@@ -13,7 +13,7 @@ import {
 } from "../styles";
 import Notification from "./Notification";
 
-const LoginForm = ({ login }) => {
+const LoginForm = () => {
   const info = useSelector((state) => state.notification);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +22,7 @@ const LoginForm = ({ login }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      dispatch(loginUser(username, password));
+      await dispatch(loginUser(username, password));
       dispatch(setNotification({ message: "welcome!", type: "info" }));
     } catch (error) {
       dispatch(

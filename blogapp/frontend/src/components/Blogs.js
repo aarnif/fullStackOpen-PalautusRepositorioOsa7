@@ -10,8 +10,10 @@ const Blogs = ({ blogs }) => {
       <Container>
         {blogs.sort(byLikes).map((blog) => (
           <Card key={blog.id}>
-            <BlogTitle>
-              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+            <BlogTitle id="title">
+              <Link id="link" to={`/blogs/${blog.id}`}>
+                {blog.title}
+              </Link>
             </BlogTitle>
             <h3>by {blog.author}</h3>
           </Card>

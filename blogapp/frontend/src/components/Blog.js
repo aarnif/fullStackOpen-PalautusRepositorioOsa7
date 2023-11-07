@@ -120,7 +120,9 @@ const Blog = ({ blog }) => {
               </li>
             ))
           ) : (
-            <li>no comments yet</li>
+            <li>
+              <BlogComment>no comments yet</BlogComment>
+            </li>
           )}
         </Ul>
 
