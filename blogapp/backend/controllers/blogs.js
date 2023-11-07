@@ -52,11 +52,15 @@ router.get("/:id", async (request, response) => {
 router.put("/:id", async (request, response) => {
   const { title, url, author, likes, comments } = request.body;
 
+  console.log(request.body);
+
   let updatedBlog = await Blog.findByIdAndUpdate(
     request.params.id,
-    { title, url, author, likes, comments },
+    { title, url, author, likes },
     { new: true }
   );
+
+  console.log(updatedBlog);
 
   updatedBlog = await Blog.findById(updatedBlog._id)
     .populate("user", { username: 1, name: 1 })

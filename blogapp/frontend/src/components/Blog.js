@@ -1,18 +1,30 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   updateBlogContent,
   removeBlog,
-  addComment,
+  addNewComment,
 } from "../reducers/blogsReducer";
-import { inialitizeBlogs } from "../reducers/blogsReducer";
 import { setNotification } from "../reducers/notificationReducer";
+import {
+  Table,
+  Tr,
+  Th,
+  Td,
+  Button,
+  CommentsBox,
+  Ul,
+  BlogComment,
+  CommentForm,
+  Input,
+} from "../styles";
 
 const Blog = ({ blog }) => {
   const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const like = async () => {
     const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id };
@@ -37,19 +49,14 @@ const Blog = ({ blog }) => {
           type: "info",
         })
       );
-      dispatch(inialitizeBlogs());
+      navigate("/blogs");
     }
   };
 
   const comment = async (event) => {
     event.preventDefault();
     const comment = event.target.comment.value;
-    const blogToUpdate = {
-      ...blog,
-      comments: [...blog.comments, { content: comment }],
-      user: blog.user.id,
-    };
-    const updatedBlog = dispatch(addComment(blogToUpdate, comment));
+    const addBlog = dispatch(addNewComment(blog.id, comment));
     dispatch(
       setNotification({
         message: `add comment '${comment}'`,
@@ -63,31 +70,70 @@ const Blog = ({ blog }) => {
 
   return (
     <>
-      <h2>
-        {blog.title} {blog.author}
-      </h2>
-      <div>
-        <div>
-          <a href={blog.url}> {blog.url}</a>{" "}
-        </div>
-        <div>
-          likes {blog.likes} <button onClick={like}>like</button>
-        </div>
-        <div>Added by {blog.user?.name}</div>
-        {canRemove && <button onClick={remove}>delete</button>}
-      </div>
-      <h3>comments</h3>
-      <form onSubmit={comment}>
-        <input type="text" id="comment" name="comment"></input>
-        <button type="submit">add comment</button>
-      </form>
-      <ul>
-        {blog.comments.length > 0 ? (
-          blog.comments.map((comment) => <li>{comment.content}</li>)
-        ) : (
-          <li>no comments yet</li>
-        )}
-      </ul>
+      <Table>
+        <thead>
+          <Tr>
+            <Th>Title:</Th>
+            <Th>
+              {blog.title} {blog.author}
+            </Th>
+          </Tr>
+        </thead>
+
+        <tbody>
+          <Tr>
+            <Td>Url:</Td>
+            <Td>
+              <a href={blog.url}> {blog.url}</a>
+            </Td>
+          </Tr>
+
+          <Tr>
+            <Td>Likes:</Td>
+            <Td>{blog.likes}</Td>
+          </Tr>
+
+          <Tr>
+            <Td>Added by:</Td>
+            <Td> {blog.user?.name}</Td>
+          </Tr>
+        </tbody>
+
+        <tfoot>
+          <Tr>
+            <Td>Actions:</Td>
+            <Td>
+              <Button onClick={like}>like</Button>{" "}
+              {canRemove && <Button onClick={remove}>delete</Button>}
+            </Td>
+          </Tr>
+        </tfoot>
+      </Table>
+      <CommentsBox>
+        <h3>Comments:</h3>
+
+        <Ul>
+          {blog.comments.length > 0 ? (
+            blog.comments.map((comment) => (
+              <li key={comment.id}>
+                <BlogComment>{comment.content}</BlogComment>
+              </li>
+            ))
+          ) : (
+            <li>no comments yet</li>
+          )}
+        </Ul>
+
+        <CommentForm onSubmit={comment}>
+          <Input
+            type="text"
+            id="comment"
+            name="comment"
+            placeholder="write your comment here..."
+          ></Input>
+          <Button type="submit">add comment</Button>
+        </CommentForm>
+      </CommentsBox>
     </>
   );
 };

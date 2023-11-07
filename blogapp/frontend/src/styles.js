@@ -7,17 +7,18 @@ export const Button = styled.button`
   background-color: rgb(32, 107, 163);
   color: whitesmoke;
   font-size: 1.2em;
-  width: 100px;
-  height: 40px;
+  min-width: 100px;
+  min-height: 40px;
   border: none;
   border-radius: ${borderRadius};
   &:hover {
     cursor: pointer;
-    transform: scale(1.2);
+    background-color: rgb(15, 53, 99);
     transition: transform 500ms ease-in-out;
   }
   &:active {
-    transform: scale(1);
+    transform: scale(0.8);
+    transition: transform 100ms ease-in-out;
   }
 `;
 
@@ -97,6 +98,8 @@ export const Container = styled.div`
 `;
 
 export const Card = styled.div`
+  display: flex;
+  align-items: center;
   width: 90%;
   height: 70px;
   margin: 20px;
@@ -105,8 +108,8 @@ export const Card = styled.div`
   border-radius: ${borderRadius};
 `;
 
-export const CardHeader = styled.h1`
-  font-weight: 700;
+export const BlogTitle = styled.h1`
+  margin-right: 10px;
 `;
 
 export const NotificationBox = styled.div`
@@ -119,4 +122,41 @@ export const NotificationBox = styled.div`
   color: ${(props) => (props.type === "error" ? "darkred" : "darkgreen")};
   background-color: ${(props) =>
     props.type === "error" ? "rgb(224,102,102)" : "rgb(163,193,151)"};
+`;
+
+export const Table = styled.table`
+  width: 90%;
+`;
+
+export const Tr = styled.tr`
+  display: grid;
+  grid-template-columns: 50% 50%;
+  justify-items: start;
+  align-items: center;
+`;
+
+export const Th = styled.th`
+  margin: 10px;
+  font-size: 1.4em;
+`;
+
+export const Td = styled.td`
+  margin: 10px;
+  font-size: 1.2em;
+`;
+
+export const CommentsBox = styled(Container)`
+  width: 90%;
+  margin-left: 20px;
+  display: flex;
+  justify-items: start;
+  align-items: start;
+`;
+
+export const BlogComment = styled(Card)`
+  height: 40px;
+`;
+
+export const CommentForm = styled(Form)`
+  flex-direction: row;
 `;

@@ -62,12 +62,13 @@ export const removeBlog = (id) => {
   };
 };
 
-export const addComment = (updatedBlogContent, comment) => {
+export const addNewComment = (id, comment) => {
   return async (dispatch) => {
-    const addToComments = await BlogService.addComment(updatedBlogContent.id, {
+    const addToComments = await BlogService.addComment(id, {
       content: comment,
     });
-    dispatch(updateBlogs(updatedBlogContent));
+    const blogs = await BlogService.getAll();
+    dispatch(setBlogs(blogs));
   };
 };
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Table, Tr, Th, Td } from "../styles";
 
 const Users = ({ users }) => {
   const sortByNumberOfBlogs = users.sort(
@@ -8,26 +9,26 @@ const Users = ({ users }) => {
   return (
     <>
       <h2>Users</h2>
-      <table>
+      <Table>
         <thead>
-          <tr>
-            <th></th>
-            <th>blogs created</th>
-          </tr>
+          <Tr>
+            <Th></Th>
+            <Th>blogs created</Th>
+          </Tr>
         </thead>
         <tbody>
           {sortByNumberOfBlogs.map((user) => {
             return (
-              <tr key={user.id}>
-                <td>
+              <Tr key={user.id}>
+                <Td>
                   <Link to={`/users/${user.id}`}>{user.name}</Link>
-                </td>
-                <td>{user.blogs.length}</td>
-              </tr>
+                </Td>
+                <Td>{user.blogs.length}</Td>
+              </Tr>
             );
           })}
         </tbody>
-      </table>
+      </Table>
     </>
   );
 };

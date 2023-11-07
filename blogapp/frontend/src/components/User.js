@@ -1,4 +1,5 @@
 import React from "react";
+import { Ul, Li } from "../styles";
 
 const User = ({ user }) => {
   if (!user) {
@@ -8,11 +9,11 @@ const User = ({ user }) => {
     <>
       <h2>{user.name}</h2>
       <h3>added blogs</h3>
-      <ul>
+      <Ul>
         {user.blogs.map((blog) => (
-          <li>{blog.title}</li>
+          <Li key={blog.id}>{blog.title}</Li>
         ))}
-      </ul>
+      </Ul>
     </>
   );
 };

@@ -22,7 +22,7 @@ const LoginForm = ({ login }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await dispatch(loginUser(username, password));
+      dispatch(loginUser(username, password));
       dispatch(setNotification({ message: "welcome!", type: "info" }));
     } catch (error) {
       dispatch(
